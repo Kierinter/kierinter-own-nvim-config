@@ -1,6 +1,7 @@
 vim.g.mapleader = ","
 vim.g.maplocalleader = ","
 
+vim.keymap.set("n", "<space>", "/", { noremap = true, silent = true })    
 -- 普通模式下将 <Space>w 映射为 :w
 vim.keymap.set("n", "<Space>w", ":w<CR>", { noremap = true, silent = true })
 
@@ -34,16 +35,45 @@ vim.api.nvim_create_autocmd({"InsertEnter"}, {
 
 vim.api.nvim_create_autocmd({"InsertLeave"}, {
   callback = function()
-    vim.opt.number = false
-    vim.opt.relativenumber = true 
+    vim.opt.number = true
+    vim.opt.relativenumber = true
+  end,
+})
+
+vim.api.nvim_create_autocmd({"BufEnter", "WinEnter", "FocusGained"}, {
+  callback = function()
+    vim.opt.number = true
+    vim.opt.relativenumber = true
+  end,
+})
+
+vim.api.nvim_create_autocmd({"CursorMoved", "CursorMovedI"}, {
+  callback = function()
+    local curwin = vim.api.nvim_get_current_win()
+    local curline = vim.api.nvim_win_get_cursor(curwin)[1]
+    vim.wo.number = true
+    vim.wo.relativenumber = true
+    -- 只当前行为绝对行号，其他行为相对行号
+    vim.wo.number = true
+    vim.wo.relativenumber = true
   end,
 })
 
 -- Visual 模式下也显示绝对行号
 vim.api.nvim_create_autocmd({"ModeChanged"}, {
-  pattern = {"*:[vV\x16]"},
-  callback = function()
-    vim.opt.number = true
-    vim.opt.relativenumber = false
-  end,
+    pattern = {"*:[vV\x16]"},
+    callback = function()
+        vim.opt.number = true
+        vim.opt.relativenumber = false
+    end,
 })
+
+-- 统一缩进设置，每个制表符为4个空格
+vim.opt.expandtab = true         -- 用空格代替Tab
+vim.opt.shiftwidth = 4           -- >> << 时移动4个空格
+vim.opt.tabstop = 4              -- Tab 显示为4个空格
+vim.opt.softtabstop = 4          -- 按退格键时相当于删除4个空格
+
+-- 搜索时大小写不敏感，除非包含大写字母
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
