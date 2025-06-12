@@ -1,25 +1,12 @@
 return {
   -- 主题插件
-  { "folke/tokyonight.nvim",
-    lazy = false,
-    priority = 1000,
+  {
+    "olimorris/onedarkpro.nvim",
+    lazy = false, -- 立即加载
+    priority = 1000, -- 确保最先加载
+    opts = {},
     config = function()
-      vim.cmd.colorscheme("tokyonight")
+      vim.cmd.colorscheme("onedark_vivid") -- 正确设置主题
     end,
-    opts = {
-      style = "storm",
-      transparent = true,
-      terminal_colors = true,
-      styles = {
-        sidebars = "transparent",
-        floats = "transparent",
-      },
-    --   on_highlights = function(hl, c)
-    --     hl.CursorLineNr.fg = c.blue
-    --     hl.LineNr.fg = c.blue
-    --     hl.LineNrNC.fg = c.blue
-    --     hl.CursorLine.fg = c.blue
-    --   end,
-    },
   },
 }
