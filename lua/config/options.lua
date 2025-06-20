@@ -1,7 +1,4 @@
-vim.g.mapleader = ","
-vim.g.maplocalleader = ","
 
-vim.keymap.set("n", "<space>", "/", { noremap = true, silent = true })    
 -- 普通模式下将 <Space>w 映射为 :w
 vim.keymap.set("n", "<Space>w", ":w<CR>", { noremap = true, silent = true })
 
