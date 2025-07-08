@@ -1,4 +1,3 @@
-
 -- 普通模式下将 <Space>w 映射为 :w
 vim.keymap.set("n", "<Space>w", ":w<CR>", { noremap = true, silent = true })
 
@@ -11,8 +10,6 @@ vim.keymap.set("v", "<C-c>", '"+y', { noremap = true })
 -- 插入模式下 <C-p> 粘贴
 vim.keymap.set("i", "<C-p>", "<C-r>*", { noremap = true, silent = true })
 
--- 普通模式下 <c-p> 粘贴
-vim.keymap.set("n", "<C-p>", '"*p', { noremap = true, silent = true })
 
 vim.keymap.set("n", "<leader>tw", ":Translate ZH<CR>", { noremap = true, silent = true })
 -- 设置字体为 JetBrainsMono Nerd Font Mono，大小为 12
@@ -74,3 +71,20 @@ vim.opt.softtabstop = 4          -- 按退格键时相当于删除4个空格
 -- 搜索时大小写不敏感，除非包含大写字母
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
+
+-- 插入新行时不自动继承注释
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "*",
+    callback = function()
+        vim.opt.formatoptions:remove({ "c", "r", "o" })
+    end,
+})
+
+-- keymap for yanky.nvim
+vim.keymap.set({"n","x"}, "p", "<Plug>(YankyPutAfter)")
+vim.keymap.set({"n","x"}, "P", "<Plug>(YankyPutBefore)")
+vim.keymap.set({"n","x"}, "gp", "<Plug>(YankyGPutAfter)")
+vim.keymap.set({"n","x"}, "gP", "<Plug>(YankyGPutBefore)")
+
+vim.keymap.set("n", "<c-p>", "<Plug>(YankyPreviousEntry)")
+vim.keymap.set("n", "<c-n>", "<Plug>(YankyNextEntry)")
